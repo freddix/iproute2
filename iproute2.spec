@@ -1,0 +1,90 @@
+Summary:	Utility to control Networking behavior in.X kernels
+Name:		iproute2
+Version:	3.4.0
+Release:	1
+License:	GPL
+Group:		Networking/Admin
+Source0:	http://www.kernel.org/pub/linux/utils/net/iproute2/%{name}-%{version}.tar.xz
+# Source0-md5:	879d3fac4e90809598b2864ec4a0cbf8
+Patch0:		%{name}-LDFLAGS.patch
+Patch1:		%{name}-fhs.patch
+URL:		http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
+BuildRequires:	bison
+BuildRequires:	db-devel
+BuildRequires:	flex
+BuildRequires:	linux-libc-headers
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_sysconfdir	/etc/iproute2
+
+%description
+Linux maintains compatibility with the basic configuration utilities
+of the network (ifconfig, route) but a new utility is required to
+exploit the new characteristics and features of the kernel. This
+package includes the new utilities.
+
+%package -n libnetlink-devel
+Summary:	Library for the netlink interface
+Group:		Development/Libraries
+
+%description -n libnetlink-devel
+This library provides an interface for kernel-user netlink interface.
+
+%prep
+%setup -q
+rm -rf include-glibc include/linux
+%patch0 -p1
+%patch1 -p1
+
+%build
+%{__make} \
+	CC="%{__cc}"		\
+	HOSTCC="%{__cc}"	\
+	LD="%{__cc}"		\
+	LDFLAGS="%{rpmldflags}"	\
+	OPT="%{rpmcflags}"	\
+	SUBDIRS="lib ip misc"
+
+%install
+rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir}}
+
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
+install lib/libnetlink.a $RPM_BUILD_ROOT%{_libdir}
+install include/libnetlink.h $RPM_BUILD_ROOT%{_includedir}
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(644,root,root,755)
+%doc README README.decnet README.iproute2+tc README.lnstat
+%attr(755,root,root) %{_sbindir}/ip
+%attr(755,root,root) %{_sbindir}/nstat
+%attr(755,root,root) %{_sbindir}/ifstat
+%attr(755,root,root) %{_sbindir}/genl
+%attr(755,root,root) %{_sbindir}/lnstat
+%attr(755,root,root) %{_sbindir}/rtacct
+%attr(755,root,root) %{_sbindir}/rtmon
+%attr(755,root,root) %{_sbindir}/ss
+%attr(755,root,root) %{_sbindir}/tc
+%attr(755,root,root) %{_sbindir}/arpd
+%attr(755,root,root) %{_sbindir}/rtstat
+%attr(755,root,root) %{_sbindir}/rtpr
+%attr(755,root,root) %{_sbindir}/routel
+%attr(755,root,root) %{_sbindir}/routef
+%attr(755,root,root) %{_sbindir}/ifcfg
+%attr(755,root,root) %{_sbindir}/ctstat
+
+%dir %{_sysconfdir}
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*
+%{_datadir}/tc
+%{_mandir}/man8/*
+
+%files -n libnetlink-devel
+%defattr(644,root,root,755)
+%{_libdir}/lib*.a
+%{_includedir}/*.h
+
