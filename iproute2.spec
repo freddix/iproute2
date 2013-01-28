@@ -1,11 +1,11 @@
 Summary:	Utility to control Networking behavior in.X kernels
 Name:		iproute2
-Version:	3.6.0
-Release:	2
+Version:	3.7.0
+Release:	1
 License:	GPL
 Group:		Networking/Admin
 Source0:	http://www.kernel.org/pub/linux/utils/net/iproute2/%{name}-%{version}.tar.xz
-# Source0-md5:	a19e30c8e0099d3197414c96bea6d6f8
+# Source0-md5:	b07241b267036de9a79ca5b69acf8593
 Patch0:		%{name}-LDFLAGS.patch
 Patch1:		%{name}-fhs.patch
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
