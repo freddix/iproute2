@@ -1,11 +1,11 @@
 Summary:	Utility to control Networking behavior in.X kernels
 Name:		iproute2
-Version:	3.7.0
+Version:	3.8.0
 Release:	1
 License:	GPL
 Group:		Networking/Admin
 Source0:	http://www.kernel.org/pub/linux/utils/net/iproute2/%{name}-%{version}.tar.xz
-# Source0-md5:	b07241b267036de9a79ca5b69acf8593
+# Source0-md5:	951622fd770428116dc165acba375414
 Patch0:		%{name}-LDFLAGS.patch
 Patch1:		%{name}-fhs.patch
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
@@ -13,7 +13,7 @@ BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
 BuildRequires:	iptables-devel
-BuildRequires:	linux-libc-headers
+BuildRequires:	linux-libc-headers >= %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir	/etc/iproute2
