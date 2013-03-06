@@ -1,7 +1,7 @@
 Summary:	Utility to control Networking behavior in.X kernels
 Name:		iproute2
 Version:	3.8.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Admin
 Source0:	http://www.kernel.org/pub/linux/utils/net/iproute2/%{name}-%{version}.tar.xz
